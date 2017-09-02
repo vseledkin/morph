@@ -85,9 +85,9 @@ func (d *dawg) similarItemsRecursive(prefix string, key []rune, index uint32) []
 		r := key[wordPos]
 		if r == 'е' {
 			if next := d.dct.follow("ё", index); next != 0 {
-				prefix := prefix + string(key[startPos:wordPos]) + "ё"
+				newPrefix := prefix + string(key[startPos:wordPos]) + "ё"
 				items = append(items,
-					d.similarItemsRecursive(prefix, key, next)...,
+					d.similarItemsRecursive(newPrefix, key, next)...,
 				)
 			}
 		}
