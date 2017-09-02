@@ -20,8 +20,6 @@ import (
 )
 
 const (
-	precisionMask = 0xffffffff
-
 	isLeafBit    = 1 << 31
 	hasLeafBit   = 1 << 8
 	extensionBit = 1 << 9
@@ -52,7 +50,7 @@ func label(n uint32) uint32 {
 }
 
 func offset(n uint32) uint32 {
-	return ((n >> 10) << ((n & extensionBit) >> 6)) & precisionMask
+	return (n >> 10) << ((n & extensionBit) >> 6)
 }
 
 func (d dictionary) hasValue(index uint32) bool {
@@ -61,7 +59,7 @@ func (d dictionary) hasValue(index uint32) bool {
 
 func (d dictionary) followByte(lbl byte, index uint32) uint32 {
 	off := offset(d[index])
-	next := (index ^ off ^ uint32(lbl)) & precisionMask
+	next := index ^ off ^ uint32(lbl)
 	if label(d[next]) != uint32(lbl) {
 		return 0
 	}
