@@ -43,30 +43,23 @@ func (c *completer) next() bool {
 	index := c.indexStack[len(c.indexStack)-1]
 
 	if c.lastIndex != 0 {
-		childLabel := c.guide.child(index)
-		if childLabel != 0 {
-			if index = c.follow(childLabel, index); index == 0 {
+		for {
+			siblingLabel := c.guide.sibling(index)
+			if len(c.key) > 0 {
+				c.key = c.key[:len(c.key)-1]
+			}
+
+			c.indexStack = c.indexStack[:len(c.indexStack)-1]
+			if len(c.indexStack) == 0 {
 				return false
 			}
-		} else {
-			for {
-				siblingLabel := c.guide.sibling(index)
-				if len(c.key) > 0 {
-					c.key = c.key[:len(c.key)-1]
-				}
 
-				c.indexStack = c.indexStack[:len(c.indexStack)-1]
-				if len(c.indexStack) == 0 {
+			index = c.indexStack[len(c.indexStack)-1]
+			if siblingLabel != 0 {
+				if index = c.follow(siblingLabel, index); index == 0 {
 					return false
 				}
-
-				index = c.indexStack[len(c.indexStack)-1]
-				if siblingLabel != 0 {
-					if index = c.follow(siblingLabel, index); index == 0 {
-						return false
-					}
-					break
-				}
+				break
 			}
 		}
 	}
