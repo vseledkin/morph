@@ -24,15 +24,15 @@ import (
 func main() {
     words, norms, tags := morph.Parse("все")
     for i := range words {
-        fmt.Printf("%-4s %-4s %s\n", words[i], norms[i], tags[i])
+        fmt.Printf("%-4s %-5s %s\n", words[i], norms[i], tags[i])
     }
 }
 ```
 
 Output:
 
-    все  весь ADJF,Subx,Apro plur,nomn
-    все  весь ADJF,Subx,Apro inan,plur,accs
-    всё  всё  PRCL
-    всё  весь ADJF,Subx,Apro neut,sing,nomn
-    всё  весь ADJF,Subx,Apro neut,sing,accs
+    все  весь  ADJF,Subx,Apro plur,nomn
+    все  весь  ADJF,Subx,Apro inan,plur,accs
+    всё  всё   PRCL
+    всё  весь  ADJF,Subx,Apro neut,sing,nomn
+    всё  весь  ADJF,Subx,Apro neut,sing,accs
