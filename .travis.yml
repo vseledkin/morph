@@ -6,7 +6,7 @@ go:
   - master
 
 install:
-  - pip install pymorphy2_dicts_ru
+  - pip install --user pymorphy2_dicts_ru
   - go build ./...
 
 script:
