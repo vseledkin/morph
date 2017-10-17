@@ -7,7 +7,7 @@ A morphological analyzer for Russian language, using dictionaries from [pymorphy
 
 The package:
 
-    go get github.com/opennota/morph
+    go get -u github.com/opennota/morph
 
 And the dictionaries:
 
