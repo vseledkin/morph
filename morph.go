@@ -138,6 +138,7 @@ func loadParadigms(fn string) error {
 		return err
 	}
 
+	paradigms = make([][]uint16, 0, paraCount)
 	for i := 0; i < int(paraCount); i++ {
 		var paraLen uint16
 		if err := binary.Read(f, binary.LittleEndian, &paraLen); err != nil {
