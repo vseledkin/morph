@@ -10,3 +10,4 @@ install:
 
 script:
   - test -z "$(gofmt -l . | tee /dev/stderr)"
+  - go test -v ./...
