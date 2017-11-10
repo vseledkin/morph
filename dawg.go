@@ -22,8 +22,8 @@ import (
 const payloadSeparator = '\x01'
 
 type dawg struct {
-	dct   dictionary
-	guide guide
+	Dict  dictionary
+	Guide guide
 }
 
 func newDAWG(fn string) (*dawg, error) {
@@ -44,8 +44,8 @@ func newDAWG(fn string) (*dawg, error) {
 	}
 
 	return &dawg{
-		dct:   d,
-		guide: g,
+		Dict:  d,
+		Guide: g,
 	}, nil
 }
 
@@ -61,7 +61,7 @@ func b64d(p []byte) []byte {
 
 func (d *dawg) valuesForIndex(index uint32) [][]byte {
 	var values [][]byte
-	completer := newCompleter(d.dct, d.guide)
+	completer := newCompleter(d.Dict, d.Guide)
 	completer.start(index, "")
 	for completer.next() {
 		values = append(values, b64d(completer.key))
@@ -84,20 +84,20 @@ func (d *dawg) similarItemsRecursive(prefix string, key []rune, index uint32) []
 	for wordPos < endPos {
 		r := key[wordPos]
 		if r == 'е' {
-			if next := d.dct.follow("ё", index); next != 0 {
+			if next := d.Dict.follow("ё", index); next != 0 {
 				newPrefix := prefix + string(key[startPos:wordPos]) + "ё"
 				items = append(items,
 					d.similarItemsRecursive(newPrefix, key, next)...,
 				)
 			}
 		}
-		if index = d.dct.followRune(r, index); index == 0 {
+		if index = d.Dict.followRune(r, index); index == 0 {
 			break
 		}
 		wordPos++
 	}
 	if wordPos == endPos {
-		if index = d.dct.followByte(payloadSeparator, index); index != 0 {
+		if index = d.Dict.followByte(payloadSeparator, index); index != 0 {
 			foundKey := prefix + string(key[startPos:])
 			value := d.valuesForIndex(index)
 			items = append([]item{{foundKey, value}}, items...)
