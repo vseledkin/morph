@@ -11,7 +11,7 @@ The package:
 
 And the dictionaries:
 
-    pip install pymorphy2_dicts_ru
+    pip install --user pymorphy2-dicts-ru
 
 ## Use
 
