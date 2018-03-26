@@ -16,13 +16,12 @@
 package morph
 
 import (
-	"bytes"
 	"encoding/binary"
 	"encoding/json"
 	"os"
-	"os/exec"
 	"path/filepath"
 	"strings"
+	"path"
 )
 
 var (
@@ -64,7 +63,7 @@ func Parse(word string) (words []string, norms []string, tags []string) {
 }
 
 func init() {
-	dir := dataPath()
+	dir := path.Join("lang","ru")
 	prefixesPath := filepath.Join(dir, "paradigm-prefixes.json")
 	suffixesPath := filepath.Join(dir, "suffixes.json")
 	tagsPath := filepath.Join(dir, "gramtab-opencorpora-int.json")
@@ -99,17 +98,6 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-}
-
-func dataPath() string {
-	cmd := exec.Command("python", "-c", "import pymorphy2_dicts_ru as p; print(p.__path__[0])")
-	var buf bytes.Buffer
-	cmd.Stdout = &buf
-	if err := cmd.Run(); err != nil {
-		panic("pymorphy2_dicts_ru is not installed")
-	}
-	dir := strings.TrimRight(buf.String(), "\r\n")
-	return filepath.Join(dir, "data")
 }
 
 func loadStringArray(fn string) ([]string, error) {
